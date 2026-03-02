@@ -15,7 +15,16 @@ Build a machine translation model that can generate draft translations of Old Te
 | BLEU   | 0.08      | 3.92       | +3.84       |
 | chrF   | 13.39     | 33.27      | +19.88      |
 
-*Baseline results using 2,151 aligned verse pairs (Luke + Acts). Further improvement is expected with additional New Testament data.*
+*Results using 2,151 aligned verse pairs (Luke + Acts, 20 epochs). Further improvement is expected with additional New Testament data.*
+
+**chrF score guide** (max 100):
+
+| Range | Quality |
+|-------|---------|
+| 50+   | Usable as draft for post-editing by translators |
+| 60+   | Practically useful draft translation |
+| 70+   | High-quality translation |
+| 33    | Current — meaningful progress from 2,151 sentences, not yet usable as draft |
 
 ## Pipeline
 
