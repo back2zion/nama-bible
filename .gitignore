@@ -12,8 +12,9 @@ wheels/
 # Model checkpoints (too large for git)
 output/
 
-# Raw USFM source files (download from png.bible)
-raw/
+# Zip archives (too large, can re-download)
+raw/*.zip
+raw/multilingual/*.zip
 
 # Large data files
 multilingual_parallel.json
