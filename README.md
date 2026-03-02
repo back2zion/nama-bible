@@ -28,12 +28,13 @@ Build a machine translation model that can generate draft translations of Old Te
 
 ## Roadmap
 
-| Phase | Model | Data | Target |
-|-------|-------|------|--------|
-| **v1 (current)** | NLLB-200-distilled-600M | Luke + Acts (2,151 pairs) | Baseline, chrF 33 |
-| **v2 (planned)** | TranslateGemma 27B + QLoRA | Full NT (~10k+ pairs) | chrF 50+ (usable draft) |
+| Phase | Model | GPU | Data | Target |
+|-------|-------|-----|------|--------|
+| **v1 (current)** | NLLB-200-distilled-600M | 1x RTX 3090 | Luke + Acts (2,151 pairs) | Baseline, chrF 33 |
+| **v2 (planned)** | TranslateGemma 4B + QLoRA | 1x RTX 3090 | Full NT (~10k+ pairs) | chrF 50+ |
+| **v3 (planned)** | TranslateGemma 27B + QLoRA | 2x RTX 3090 | Full NT (~10k+ pairs) | chrF 60+ (usable draft) |
 
-v2 is planned for when additional New Testament data becomes available.
+v2/v3 are planned for when additional New Testament data becomes available.
 
 ## Pipeline
 
@@ -65,7 +66,12 @@ nama-bible/
 - **VRAM usage:** ~14.5 GB
 - **Training time:** ~30 minutes
 
-### v2 (planned) — TranslateGemma 27B QLoRA
+### v2 (planned) — TranslateGemma 4B QLoRA
+- **GPU:** 1x NVIDIA RTX 3090 (24 GB VRAM)
+- **Method:** QLoRA (4-bit)
+- **Libraries:** transformers, peft, bitsandbytes, accelerate
+
+### v3 (planned) — TranslateGemma 27B QLoRA
 - **GPU:** 2x NVIDIA RTX 3090 (48 GB VRAM total)
 - **Method:** QLoRA (4-bit) + FSDP multi-GPU
 - **Libraries:** transformers, peft, bitsandbytes, accelerate
