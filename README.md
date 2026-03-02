@@ -12,8 +12,8 @@ Build a machine translation model that can generate draft translations of Old Te
 
 | Metric | Zero-shot | Fine-tuned | Improvement |
 |--------|-----------|------------|-------------|
-| BLEU   | 0.19      | 3.57       | +3.37       |
-| chrF   | 12.73     | 23.53      | +10.80      |
+| BLEU   | 0.08      | 3.92       | +3.84       |
+| chrF   | 13.39     | 33.27      | +19.88      |
 
 *Baseline results using 2,151 aligned verse pairs (Luke + Acts). Further improvement is expected with additional New Testament data.*
 
@@ -46,7 +46,7 @@ Requires Python 3.10+ and a CUDA-capable GPU (tested on RTX 3090).
 
 ```bash
 # Clone
-git clone https://github.com/woodcross/nama-bible.git
+git clone https://github.com/back2zion/nama-bible.git
 cd nama-bible
 
 # Install dependencies
@@ -87,4 +87,4 @@ uv run python main.py
 
 ## Acknowledgments
 
-This project supports the Bible translation work of SIL Papua New Guinea among the Nama people of Western Province, PNG.
+This project is a small helping hand for the expansion of God's Kingdom, supporting the Bible translation work of SIL Papua New Guinea among the Nama people of Western Province, PNG.
