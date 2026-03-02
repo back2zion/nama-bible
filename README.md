@@ -26,6 +26,15 @@ Build a machine translation model that can generate draft translations of Old Te
 | 70+   | High-quality translation |
 | 33    | Current — meaningful progress from 2,151 sentences, not yet usable as draft |
 
+## Roadmap
+
+| Phase | Model | Data | Target |
+|-------|-------|------|--------|
+| **v1 (current)** | NLLB-200-distilled-600M | Luke + Acts (2,151 pairs) | Baseline, chrF 33 |
+| **v2 (planned)** | TranslateGemma 27B + QLoRA | Full NT (~10k+ pairs) | chrF 50+ (usable draft) |
+
+v2 is planned for when additional New Testament data becomes available.
+
 ## Pipeline
 
 1. **Parse** USFM files into verse-aligned English-Nama parallel corpus
@@ -49,9 +58,21 @@ nama-bible/
 └── raw/                     # USFM source files (not in repo)
 ```
 
+## Hardware Requirements
+
+### v1 (current) — NLLB-200 fine-tuning
+- **GPU:** 1x NVIDIA RTX 3090 (24 GB VRAM)
+- **VRAM usage:** ~14.5 GB
+- **Training time:** ~30 minutes
+
+### v2 (planned) — TranslateGemma 27B QLoRA
+- **GPU:** 2x NVIDIA RTX 3090 (48 GB VRAM total)
+- **Method:** QLoRA (4-bit) + FSDP multi-GPU
+- **Libraries:** transformers, peft, bitsandbytes, accelerate
+
 ## Setup
 
-Requires Python 3.10+ and a CUDA-capable GPU (tested on RTX 3090).
+Requires Python 3.10+ and CUDA-capable GPU(s).
 
 ```bash
 # Clone
@@ -69,11 +90,11 @@ mkdir -p raw/nmx_usfm raw/eng_usfm
 # Build parallel corpus
 uv run python parse_usfm.py
 
-# Train model
+# Train model (v1: single GPU)
 uv run python main.py
 ```
 
-## Training Configuration
+## Training Configuration (v1)
 
 - **Base model:** facebook/nllb-200-distilled-600M
 - **Optimizer:** Adafactor (memory-efficient)
@@ -81,7 +102,6 @@ uv run python main.py
 - **Epochs:** 20
 - **FP16:** Enabled
 - **Gradient checkpointing:** Enabled
-- **GPU memory usage:** ~14.5 GB
 
 ## Data Sources
 
