@@ -1,6 +1,6 @@
 # Nama Bible
 
-Fine-tuning [NLLB-200](https://ai.meta.com/research/no-language-left-behind/) for English-to-Nama (nmx) Bible translation.
+English-to-Nama (nmx) Bible translation using [TranslateGemma](https://huggingface.co/google/translategemma-4b-it) — fine-tuning Google's translation LLM for an ultra-low-resource Papuan language of Papua New Guinea.
 
 Nama is an ultra-low-resource Papuan language spoken in the Morehead district of Western Province, Papua New Guinea, belonging to the Yam (Morehead-Upper Maro) language family.
 
@@ -39,24 +39,30 @@ v2/v3 are planned for when additional New Testament data becomes available.
 ## Pipeline
 
 1. **Parse** USFM files into verse-aligned English-Nama parallel corpus
-2. **Extend** NLLB-200 tokenizer with `nmx_Latn` language code
-3. **Fine-tune** NLLB-200-distilled-600M on parallel data
-4. **Evaluate** with BLEU and chrF metrics on held-out test set
-5. **Generate** draft translations for untranslated books
+2. **Fine-tune** TranslateGemma 4B with QLoRA on parallel data
+3. **Evaluate** with BLEU and chrF metrics on held-out test set
+4. **Generate** draft translations for untranslated books
 
 ## Project Structure
 
 ```
-nama-bible/
-├── main.py                  # Training & evaluation pipeline
-├── parse_usfm.py            # USFM parser & parallel corpus builder
-├── build_multilingual.py    # Multilingual data preparation (experimental)
-├── evaluate.py              # Standalone evaluation script
-├── nama_eng_parallel.json   # Aligned verse pairs (Luke + Acts)
-├── nama_eng_parallel.csv    # Same data in CSV format
-├── linguistics_report.json  # Nama linguistic analysis
-├── pyproject.toml           # Python project config
-└── raw/                     # USFM source files (not in repo)
+nama_bible/
+├── scripts/                 # All Python scripts
+│   ├── parse_usfm.py        # USFM parser & parallel corpus builder
+│   ├── build_multilingual.py # Multilingual data preparation
+│   ├── rtf_to_usfm.py       # Paratext RTF → USFM converter
+│   ├── train.py              # Training & evaluation pipeline
+│   ├── evaluate.py           # Standalone evaluation script
+│   └── translate_ruth.py     # Draft translation generator
+├── data/                    # All source data
+│   ├── source_rtf/           # Paratext RTF originals
+│   ├── nmx/                  # Nama USFM (27 NT books)
+│   ├── eng/                  # English WEB USFM (full Bible)
+│   ├── multilingual/         # PNG language USFM corpora
+│   └── nmx_ebible/           # eBible.org originals (LUK, ACT)
+├── output/                  # Model checkpoints & drafts (gitignored)
+├── pyproject.toml
+└── README.md
 ```
 
 ## Hardware Requirements
@@ -88,16 +94,11 @@ cd nama-bible
 # Install dependencies
 uv sync
 
-# Download USFM data
-mkdir -p raw/nmx_usfm raw/eng_usfm
-# Get Nama USFM from https://png.bible/details.php?id=nmx
-# Get English WEB USFM from https://ebible.org/Scriptures/engwebp_usfm.zip
-
 # Build parallel corpus
-uv run python parse_usfm.py
+uv run python scripts/parse_usfm.py
 
-# Train model (v1: single GPU)
-uv run python main.py
+# Train model
+uv run python scripts/train.py
 ```
 
 ## Training Configuration (v1)

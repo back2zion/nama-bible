@@ -35,8 +35,10 @@ from transformers import (
 MODEL_NAME = "facebook/nllb-200-distilled-600M"
 NEW_LANG_CODE = "nmx_Latn"
 PROXY_LANG_CODE = "tpi_Latn"  # Tok Pisin – PNG lingua franca
-DATA_PATH = "nama_eng_parallel.json"
-OUTPUT_DIR = "./output/nllb-nama-pilot"
+from pathlib import Path
+_BASE = Path(__file__).resolve().parent.parent
+DATA_PATH = str(_BASE / "nama_eng_parallel.json")
+OUTPUT_DIR = str(_BASE / "output" / "nllb-nama-pilot")
 
 SEED = 42
 TRAIN_RATIO = 0.80
@@ -344,7 +346,7 @@ def save_results(
             for t, p in zip(test_data, ft_results["predictions"])
         ],
     }
-    out_path = "evaluation_results.json"
+    out_path = str(_BASE / "evaluation_results.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     print(f"\nResults saved to {out_path}")

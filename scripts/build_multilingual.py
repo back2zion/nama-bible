@@ -8,16 +8,19 @@ to boost Nama (nmx) translation quality.
 
 import json
 import re
+import sys
 from pathlib import Path
 
+SCRIPTS_DIR = Path(__file__).resolve().parent
+BASE = SCRIPTS_DIR.parent
+sys.path.insert(0, str(SCRIPTS_DIR))
 from parse_usfm import parse_usfm
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
-BASE = Path(__file__).resolve().parent
-RAW = BASE / "raw"
-ENG_DIR = RAW / "eng_full_usfm"
-MULTI_DIR = RAW / "multilingual"
+DATA = BASE / "data"
+ENG_DIR = DATA / "eng"
+MULTI_DIR = DATA / "multilingual"
 
 # Languages to process: (dir_name, lang_code, nllb_code_or_none)
 LANGUAGES = [

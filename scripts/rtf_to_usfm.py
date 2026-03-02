@@ -5,8 +5,8 @@ Paratext exports RTF files with USFM markers encoded as RTF paragraph styles.
 This script parses the RTF structure and reconstructs proper USFM files.
 
 Usage:
-    python rtf_to_usfm.py raw/*.rtf
-    python rtf_to_usfm.py raw/마태복음부터\ 사도행전까지.rtf -o raw/nmx_usfm_new
+    python rtf_to_usfm.py data/source_rtf/*.rtf
+    python rtf_to_usfm.py data/source_rtf/마태복음부터\ 사도행전까지.rtf -o data/nmx
 """
 
 import re
@@ -197,7 +197,7 @@ def parse_rtf_to_books(rtf_path: str) -> dict[str, list[str]]:
 def main():
     parser = argparse.ArgumentParser(description="Convert Paratext RTF to USFM")
     parser.add_argument("rtf_files", nargs="+", help="RTF file(s) to convert")
-    parser.add_argument("-o", "--output", default="raw/nmx_usfm_rtf", help="Output directory")
+    parser.add_argument("-o", "--output", default="data/nmx", help="Output directory")
     args = parser.parse_args()
 
     output_dir = Path(args.output)

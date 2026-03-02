@@ -169,8 +169,8 @@ def analyze_nama_linguistics(corpus: list) -> dict:
 # ─── 메인 실행 ────────────────────────────────────────────────────────────────
 
 def main():
-    base = Path(__file__).resolve().parent
-    raw = base / "raw"
+    base = Path(__file__).resolve().parent.parent
+    data = base / "data"
 
     print("=" * 60)
     print("  나마어 성경 코퍼스 구축 파이프라인")
@@ -179,7 +179,7 @@ def main():
     # 1. 나마어 파싱
     print("\n[1/4] 나마어 USFM 파싱 중...")
     nama_data = {}
-    for usfm_file in sorted((raw / "nmx_usfm").glob("*.usfm")):
+    for usfm_file in sorted((data / "nmx_ebible").glob("*.usfm")):
         parsed = parse_usfm(str(usfm_file))
         nama_data.update(parsed)
         for book, chapters in parsed.items():
@@ -189,7 +189,7 @@ def main():
     # 2. 영어 파싱 (Luke, Acts만)
     print("\n[2/4] 영어(WEB) USFM 파싱 중...")
     eng_data = {}
-    for usfm_file in sorted((raw / "eng_usfm").glob("*.usfm")):
+    for usfm_file in sorted((data / "eng").glob("*.usfm")):
         parsed = parse_usfm(str(usfm_file))
         eng_data.update(parsed)
         for book, chapters in parsed.items():

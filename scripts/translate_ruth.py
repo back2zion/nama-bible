@@ -11,11 +11,18 @@ logging.getLogger("accelerate.utils.modeling").setLevel(logging.ERROR)
 import os
 os.environ["TRANSFORMERS_NO_ADVISORY_WARNINGS"] = "1"
 
+import sys
+from pathlib import Path
+
+SCRIPTS_DIR = Path(__file__).resolve().parent
+_BASE = SCRIPTS_DIR.parent
+sys.path.insert(0, str(SCRIPTS_DIR))
+
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from parse_usfm import parse_usfm
 
-CHECKPOINT = "./output/nllb-nama-pilot/checkpoint-1080"
+CHECKPOINT = str(_BASE / "output" / "nllb-nama-pilot" / "checkpoint-1080")
 NEW_LANG_CODE = "nmx_Latn"
 MAX_LENGTH = 128
 REPETITION_PENALTY = 1.3
@@ -32,7 +39,7 @@ def main():
     print(f"Model on {device}")
 
     # Parse Ruth
-    ruth = parse_usfm("raw/eng_full_usfm/09-RUTengwebp.usfm")
+    ruth = parse_usfm(str(_BASE / "data" / "eng" / "09-RUTengwebp.usfm"))
     chapter = ruth["RUT"][1]
 
     # Translate
@@ -64,7 +71,7 @@ def main():
         print(f"  NMX:  {pred}")
 
     # Save to file
-    out_path = "ruth_1_draft.txt"
+    out_path = str(_BASE / "output" / "ruth_1_draft.txt")
     with open(out_path, "w", encoding="utf-8") as f:
         f.write("RUTH CHAPTER 1 — Nama Draft Translation\n")
         f.write("=" * 50 + "\n")
