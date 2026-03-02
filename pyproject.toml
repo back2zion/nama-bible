@@ -1,0 +1,15 @@
+[project]
+name = "nama-bible"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "accelerate>=1.1.0",
+    "datasets>=4.6.1",
+    "pandas>=2.3.3",
+    "sacrebleu>=2.5.0",
+    "sentencepiece>=0.2.0",
+    "torch>=2.10.0",
+    "transformers>=5.2.0",
+]

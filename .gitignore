@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Model checkpoints (too large for git)
+output/
+
+# Raw USFM source files (download from png.bible)
+raw/
+
+# Large data files
+multilingual_parallel.json
+
+# Evaluation outputs
+evaluation_results.json
