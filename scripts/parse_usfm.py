@@ -50,8 +50,8 @@ def parse_usfm(filepath: str) -> dict:
                 current_verse = None
                 continue
 
-            # 절
-            m = re.match(r"\\v\s+(\d+)\s*(.*)", line)
+            # 절 (re.search로 \li 등 내부의 \v도 감지)
+            m = re.search(r"\\v\s+(\d+)\s*(.*)", line)
             if m:
                 verse_buffer = flush_verse()
                 current_verse = int(m.group(1))
@@ -61,8 +61,8 @@ def parse_usfm(filepath: str) -> dict:
 
             # 마커 제거 후 텍스트 누적
             if current_verse is not None:
-                # 마커 라인이 아닌 경우 버퍼에 추가
-                if not line.startswith("\\") or re.match(r"\\[qmspf]", line):
+                # \li, \q, \m, \s, \p, \f 마커 라인도 텍스트로 인식
+                if not line.startswith("\\") or re.match(r"\\[qmspfl]", line):
                     cleaned = re.sub(r"\\[a-z0-9+*]+\s*", " ", line)
                     if cleaned.strip():
                         verse_buffer.append(cleaned.strip())
@@ -90,15 +90,21 @@ def clean_usfm_text(text: str) -> str:
 
 # ─── 병렬 코퍼스 구축 ────────────────────────────────────────────────────────
 
+NT_BOOKS = [
+    "MAT", "MRK", "LUK", "JHN", "ACT", "ROM", "1CO", "2CO", "GAL", "EPH",
+    "PHP", "COL", "1TH", "2TH", "1TI", "2TI", "TIT", "PHM",
+    "HEB", "JAS", "1PE", "2PE", "1JN", "2JN", "3JN", "JUD", "REV",
+]
+
+
 def build_parallel_corpus(nama_data: dict, eng_data: dict) -> list:
     """
     나마어-영어 병렬 코퍼스 구축
     Returns: [{"ref": "LUK 1:1", "nama": "...", "english": "..."}, ...]
     """
     corpus = []
-    book_map = {"LUK": "LUK", "ACT": "ACT"}
 
-    for book_code in ["LUK", "ACT"]:
+    for book_code in NT_BOOKS:
         nama_book = nama_data.get(book_code, {})
         eng_book = eng_data.get(book_code, {})
 
@@ -123,6 +129,92 @@ def build_parallel_corpus(nama_data: dict, eng_data: dict) -> list:
                 corpus.append(entry)
 
     return corpus
+
+
+# ─── BT 병렬 코퍼스 구축 ──────────────────────────────────────────────────────
+
+def build_bt_parallel_corpus(nama_data: dict, bt_data: dict) -> list:
+    """
+    나마어-Back Translation 병렬 코퍼스 구축
+    Returns: [{"ref": "MRK 1:1", "nama": "...", "bt": "..."}, ...]
+    """
+    corpus = []
+
+    for book_code in NT_BOOKS:
+        nama_book = nama_data.get(book_code, {})
+        bt_book = bt_data.get(book_code, {})
+
+        all_chapters = sorted(set(list(nama_book.keys()) + list(bt_book.keys())))
+
+        for chapter in all_chapters:
+            nama_ch = nama_book.get(chapter, {})
+            bt_ch = bt_book.get(chapter, {})
+            all_verses = sorted(set(list(nama_ch.keys()) + list(bt_ch.keys())))
+
+            for verse in all_verses:
+                ref = f"{book_code} {chapter}:{verse}"
+                nama_text = nama_ch.get(verse, "")
+                bt_text = bt_ch.get(verse, "")
+                if nama_text and bt_text:
+                    corpus.append({
+                        "ref": ref,
+                        "book": book_code,
+                        "chapter": chapter,
+                        "verse": verse,
+                        "nama": nama_text,
+                        "bt": bt_text,
+                        "source": "bt",
+                    })
+
+    return corpus
+
+
+# ─── 데이터 검증 ─────────────────────────────────────────────────────────────
+
+def validate_corpus(nama_data: dict, eng_data: dict, corpus: list) -> None:
+    """책별 절 수 비교 및 정렬 누락 리포트"""
+    print("\n  ─── 데이터 검증 리포트 ───")
+    aligned = [e for e in corpus if e.get("aligned")]
+    total_nama_only = 0
+    total_eng_only = 0
+
+    for book_code in NT_BOOKS:
+        nama_book = nama_data.get(book_code, {})
+        eng_book = eng_data.get(book_code, {})
+        nama_verses = sum(len(v) for v in nama_book.values())
+        eng_verses = sum(len(v) for v in eng_book.values())
+        book_aligned = sum(1 for e in aligned if e["book"] == book_code)
+        nama_only = nama_verses - book_aligned
+        eng_only = eng_verses - book_aligned
+        total_nama_only += nama_only
+        total_eng_only += eng_only
+
+        flag = ""
+        if nama_only > 10 or eng_only > 10:
+            flag = " ⚠"
+        print(f"  {book_code}: nama={nama_verses}, eng={eng_verses}, aligned={book_aligned}, "
+              f"nama_only={nama_only}, eng_only={eng_only}{flag}")
+
+    print(f"\n  총 nama_only: {total_nama_only}, eng_only: {total_eng_only}")
+
+    # 비정상적으로 짧은/긴 절 플래그
+    short_verses = []
+    long_verses = []
+    for e in aligned:
+        nama_len = len(e["nama"].split())
+        if nama_len <= 2:
+            short_verses.append((e["ref"], e["nama"]))
+        elif nama_len > 80:
+            long_verses.append((e["ref"], nama_len))
+
+    if short_verses:
+        print(f"\n  비정상적으로 짧은 절 ({len(short_verses)}개):")
+        for ref, text in short_verses[:5]:
+            print(f"    {ref}: '{text}'")
+    if long_verses:
+        print(f"\n  비정상적으로 긴 절 ({len(long_verses)}개):")
+        for ref, wc in long_verses[:5]:
+            print(f"    {ref}: {wc} words")
 
 
 # ─── 언어학적 분석 ────────────────────────────────────────────────────────────
@@ -179,15 +271,15 @@ def main():
     # 1. 나마어 파싱
     print("\n[1/4] 나마어 USFM 파싱 중...")
     nama_data = {}
-    for usfm_file in sorted((data / "nmx_ebible").glob("*.usfm")):
+    for usfm_file in sorted((data / "nmx").glob("*.usfm")):
         parsed = parse_usfm(str(usfm_file))
         nama_data.update(parsed)
         for book, chapters in parsed.items():
             total = sum(len(v) for v in chapters.values())
             print(f"  ✓ {book}: {len(chapters)}장, {total}절")
 
-    # 2. 영어 파싱 (Luke, Acts만)
-    print("\n[2/4] 영어(WEB) USFM 파싱 중...")
+    # 2. 영어(WEB) 파싱
+    print("\n[2/6] 영어(WEB) USFM 파싱 중...")
     eng_data = {}
     for usfm_file in sorted((data / "eng").glob("*.usfm")):
         parsed = parse_usfm(str(usfm_file))
@@ -196,8 +288,8 @@ def main():
             total = sum(len(v) for v in chapters.values())
             print(f"  ✓ {book}: {len(chapters)}장, {total}절")
 
-    # 3. 병렬 코퍼스 구축
-    print("\n[3/4] 병렬 코퍼스 구축 중...")
+    # 3. 병렬 코퍼스 구축 (Nama ↔ WEB)
+    print("\n[3/6] Nama ↔ WEB 병렬 코퍼스 구축 중...")
     corpus = build_parallel_corpus(nama_data, eng_data)
     aligned = [e for e in corpus if e["aligned"]]
     print(f"  총 항목: {len(corpus)}개")
@@ -217,8 +309,50 @@ def main():
         writer.writerows(corpus)
     print(f"  → {corpus_csv}")
 
-    # 4. 언어학적 분석
-    print("\n[4/4] 나마어 언어학적 분석 중...")
+    # 4. Back Translation 변환 및 BT 병렬 코퍼스 구축
+    bt_corpus = []
+    bt_rtf = data / "source_rtf" / "마태복음부터 요한계시록 BT.rtf"
+    if bt_rtf.exists():
+        print("\n[4/6] Back Translation RTF 변환 중...")
+        import sys
+        sys.path.insert(0, str(base / "scripts"))
+        from rtf_to_usfm import parse_rtf_to_books
+
+        bt_dir = data / "bt"
+        bt_dir.mkdir(parents=True, exist_ok=True)
+
+        bt_books = parse_rtf_to_books(str(bt_rtf))
+        from rtf_to_usfm import BOOK_NUMBERS
+        for book_code, lines in sorted(bt_books.items(), key=lambda x: BOOK_NUMBERS.get(x[0], "99")):
+            num = BOOK_NUMBERS.get(book_code, "00")
+            filename = f"{num}-{book_code}bt.usfm"
+            filepath = bt_dir / filename
+            with open(filepath, "w", encoding="utf-8") as f:
+                f.write("\n".join(lines) + "\n")
+
+        bt_data = {}
+        for usfm_file in sorted(bt_dir.glob("*.usfm")):
+            parsed = parse_usfm(str(usfm_file))
+            bt_data.update(parsed)
+        bt_verses = sum(sum(len(v) for v in chs.values()) for chs in bt_data.values())
+        print(f"  BT 변환 완료: {len(bt_data)}권, {bt_verses}절")
+
+        bt_corpus = build_bt_parallel_corpus(nama_data, bt_data)
+        print(f"  Nama ↔ BT 정렬 완료: {len(bt_corpus)}쌍")
+
+        bt_json = base / "nama_bt_parallel.json"
+        with open(bt_json, "w", encoding="utf-8") as f:
+            json.dump(bt_corpus, f, ensure_ascii=False, indent=2)
+        print(f"  → {bt_json}")
+    else:
+        print("\n[4/6] BT RTF 파일 없음, 건너뜀")
+
+    # 5. 데이터 검증
+    print("\n[5/6] 데이터 검증 중...")
+    validate_corpus(nama_data, eng_data, corpus)
+
+    # 6. 언어학적 분석
+    print("\n[6/6] 나마어 언어학적 분석 중...")
     analysis = analyze_nama_linguistics(corpus)
 
     analysis_json = base / "linguistics_report.json"
@@ -244,11 +378,15 @@ def main():
     print("  완료! 결과 파일:")
     print(f"  코퍼스 JSON: {corpus_json}")
     print(f"  코퍼스 CSV:  {corpus_csv}")
+    if bt_corpus:
+        print(f"  BT 코퍼스:   {base / 'nama_bt_parallel.json'}")
     print(f"  분석 리포트: {analysis_json}")
+    print(f"\n  총 학습 데이터: {len(aligned) + len(bt_corpus)}쌍 "
+          f"(WEB: {len(aligned)}, BT: {len(bt_corpus)})")
     print("=" * 60)
 
     # 샘플 출력
-    print("\n  ─── 샘플 병렬 구절 (LUK 1:1~5) ───")
+    print("\n  ─── 샘플 병렬 구절 (MAT 1:1~5) ───")
     for entry in corpus[:5]:
         print(f"\n  [{entry['ref']}]")
         print(f"  나마: {entry['nama'][:80]}...")

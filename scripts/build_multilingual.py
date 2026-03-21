@@ -22,15 +22,17 @@ DATA = BASE / "data"
 ENG_DIR = DATA / "eng"
 MULTI_DIR = DATA / "multilingual"
 
-# Languages to process: (dir_name, lang_code, nllb_code_or_none)
+# Languages to process: (dir_name, lang_code, nllb_code_or_none, base_dir_override_or_none)
 LANGUAGES = [
-    ("tpi", "tpi", "tpi_Latn"),   # Tok Pisin
-    ("hmo", "hmo", None),          # Hiri Motu
-    ("beo", "beo", None),          # Bedamuni
-    ("bon", "bon", None),          # Bine
-    ("gdr", "gdr", None),          # Wipi
-    ("xla", "xla", None),          # Kamula
-    ("tof", "tof", None),          # Gizrra
+    ("tpi", "tpi", "tpi_Latn", None),   # Tok Pisin
+    ("hmo", "hmo", None, None),          # Hiri Motu
+    ("beo", "beo", None, None),          # Bedamuni
+    ("bon", "bon", None, None),          # Bine
+    ("gdr", "gdr", None, None),          # Wipi
+    ("xla", "xla", None, None),          # Kamula
+    ("tof", "tof", None, None),          # Gizrra
+    ("grk", "grk", None, "grk"),         # Greek NT (UGNT)
+    ("heb", "heb", None, "heb"),         # Hebrew OT (UHB)
 ]
 
 # USFM book code → sort order (NT only for now, plus selected OT)
@@ -51,7 +53,7 @@ BOOK_ORDER = {
     "PHP": 50, "COL": 51, "1TH": 52, "2TH": 53,
     "1TI": 54, "2TI": 55, "TIT": 56, "PHM": 57,
     "HEB": 58, "JAS": 59, "1PE": 60, "2PE": 61,
-    "1JN": 62, "2JN": 63, "3JN": 64, "JDE": 65, "REV": 66,
+    "1JN": 62, "2JN": 63, "3JN": 64, "JUD": 65, "REV": 66,
 }
 
 
@@ -61,7 +63,8 @@ BOOK_ORDER = {
 def parse_all_usfm(directory: Path) -> dict:
     """Parse all USFM files in a directory into {BOOK: {ch: {v: text}}}."""
     combined = {}
-    for f in sorted(directory.glob("*.usfm")):
+    files = sorted(directory.glob("*.usfm")) + sorted(directory.glob("*.SFM"))
+    for f in files:
         parsed = parse_usfm(str(f))
         combined.update(parsed)
     return combined
@@ -118,8 +121,11 @@ def main():
     all_pairs = []
     stats = {}
 
-    for dir_name, lang_code, nllb_code in LANGUAGES:
-        lang_dir = MULTI_DIR / dir_name
+    for dir_name, lang_code, nllb_code, base_override in LANGUAGES:
+        if base_override:
+            lang_dir = DATA / base_override
+        else:
+            lang_dir = MULTI_DIR / dir_name
         if not lang_dir.exists():
             print(f"\n  SKIP {lang_code}: directory not found")
             continue

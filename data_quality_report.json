@@ -1,0 +1,24 @@
+{
+  "cleaning": {
+    "input_total": 7956,
+    "input_aligned": 3167,
+    "removed_unaligned": 4789,
+    "removed_short": 0,
+    "removed_ratio_low": 10,
+    "removed_ratio_high": 542,
+    "removed_multi_verse": 878,
+    "output_clean": 1737
+  },
+  "augmentation": {
+    "bt_raw": 2622,
+    "bt_after_filter": 1403,
+    "bt_added": 1403,
+    "clean_entries": 1737,
+    "total_augmented": 3140
+  },
+  "final_stats": {
+    "total_training_pairs": 3140,
+    "unique_books": 27,
+    "improvement_over_original": "-0.9%"
+  }
+}

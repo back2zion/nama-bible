@@ -1,0 +1,14 @@
+{
+  "metrics": {
+    "bleu": 6.11,
+    "chrf": 37.06
+  },
+  "verse_counts": {
+    "human": 85,
+    "model": 85,
+    "english": 85,
+    "common": 85
+  },
+  "ruth_pairs_added": 85,
+  "total_augmented": 3225
+}
