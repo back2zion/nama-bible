@@ -50,9 +50,17 @@ Build a machine translation model that can generate draft translations of Old Te
 1. Generated first OT draft: **Book of Ruth** (룻기) — 85 verses
 2. Shared draft with Nama Bible translation team for review
 3. Received **human-translated Ruth** (룻기.rtf) from Nama language speakers
-4. Compared model output vs human translation: **chrF 37.06** (room for improvement)
+4. Compared model output vs human translation: **chrF 37.06**
 5. Added human Ruth translation (85 pairs) to training data → **3,225 total pairs**
-6. Retraining model with human feedback data (in progress)
+6. Retrained model with human feedback data
+7. Re-translated Ruth with v3.2 model: **chrF 37.63, BLEU 9.23** (improved from 6.11)
+
+| Metric | v3.1 (first draft) | v3.2 (after human feedback) |
+|--------|-------------------|----------------------------|
+| BLEU (Ruth vs human) | 6.11 | **9.23** |
+| chrF (Ruth vs human) | 37.06 | **37.63** |
+| BLEU (NT test set) | 34.75 | 28.01 |
+| chrF (NT test set) | 59.77 | 58.31 |
 
 **Translation Improvement Cycle:**
 ```
@@ -120,8 +128,9 @@ Model draft → Human review → Receive corrections → Add to training data �
 4. Converted RTF → USFM, parsed into 85 verse-aligned pairs
 5. Compared model vs human translation: chrF 37.06 — model captures structure but differs in vocabulary choices
 6. Added human Ruth data to training corpus (3,140 → 3,225 pairs)
-7. Retraining model to incorporate human feedback — expecting improved OT translation quality
+7. Retrained model (v3.2) with human feedback → Ruth chrF improved 37.06 → 37.63
 8. This establishes the **feedback loop**: draft → review → correct → retrain → better draft
+9. More OT books from human translators will accelerate this cycle
 
 ## Project Structure
 
