@@ -1,0 +1,131 @@
+nohup: ignoring input
+The tokenizer you are loading from 'google/translategemma-27b-it' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_Loading checkpoint shards:   8%|▊         | 1/12 [12:34<2:18:19, 754.48s/it]Loading checkpoint shards:  17%|█▋        | 2/12 [21:32<1:44:30, 627.01s/it]Loading checkpoint shards:  25%|██▌       | 3/12 [42:16<2:16:19, 908.83s/it]Loading checkpoint shards:  33%|███▎      | 4/12 [1:05:28<2:26:36, 1099.59s/it]Loading checkpoint shards:  42%|████▏     | 5/12 [1:24:51<2:10:56, 1122.29s/it]Loading checkpoint shards:  50%|█████     | 6/12 [1:32:04<1:28:48, 888.03s/it] Loading checkpoint shards:  58%|█████▊    | 7/12 [1:37:05<58:00, 696.16s/it]  Loading checkpoint shards:  67%|██████▋   | 8/12 [1:41:11<36:51, 552.87s/it]Loading checkpoint shards:  75%|███████▌  | 9/12 [1:44:04<21:41, 433.96s/it]Loading checkpoint shards:  83%|████████▎ | 10/12 [1:47:27<12:05, 362.69s/it]Loading checkpoint shards:  92%|█████████▏| 11/12 [1:50:38<05:10, 310.28s/it]Loading checkpoint shards: 100%|██████████| 12/12 [1:50:53<00:00, 220.28s/it]Loading checkpoint shards: 100%|██████████| 12/12 [1:50:53<00:00, 554.42s/it]
+Loading adapter: /home/babelai/personal-dev/nama-bible/output/translategemma-nama-v3/final_adapter
+Model ready.
+
+Generating translations...
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  10/291
+  20/291
+  30/291
+  40/291
+  50/291
+  60/291
+  70/291
+  80/291
+  90/291
+  100/291
+  110/291
+  120/291
+  130/291
+  140/291
+  150/291
+  160/291
+  170/291
+  180/291
+  190/291
+  200/291
+  210/291
+  220/291
+  230/291
+  240/291
+  250/291
+  260/291
+  270/291
+  280/291
+  290/291
+  291/291
+
+============================================================
+  Standard Metrics
+============================================================
+  chrF: 51.76
+  BLEU: 24.95
+
+============================================================
+  Per-Book chrF Scores
+============================================================
+  Book         chrF    Count
+  --------------------------
+  1CO         46.88       11
+  1JN         65.76        7
+  1PE         54.39        4
+  1TH         76.66        3
+  1TI         41.45        3
+  2CO         34.85        4
+  2JN         68.29        2
+  2PE         51.09        2
+  2TH         80.45        2
+  2TI         71.52        1
+  ACT         51.40       51
+  COL         47.88        4
+  EPH         53.53        3
+  GAL         68.26        1
+  HEB         46.07       11
+  JAS         78.46        2
+  JHN         57.87       32
+  JUD         48.87        2
+  LUK         53.57       45
+  MAT         42.35       23
+  MRK         49.64       37
+  PHM         86.65        1
+  PHP         67.81        2
+  REV         55.84       18
+  ROM         52.47       18
+  TIT         55.24        2
+
+Results saved to /home/babelai/personal-dev/nama-bible/evaluation_v3_results.json
+
+============================================================
+  Sample Translations (10)
+============================================================
+
+  [JHN 1:10]
+  SRC:  The Word was in the world, and though God made the world through his(him), but t
+  REF:  Si té témorwén mband marat kénjún, a ndemamén Ngánjánam yafrotam mband marat yán
+  PRED: Si té kété témorwén mband maratan, a Ngánjánam mband marat yafrotam yáne kénjúmé
+
+  [MRK 10:2]
+  SRC:  Some Farasi men came and tested him by asking, "How does law say about divorce?
+  REF:  Ámb Farasi ár enmormén tufotawét ménaye ámoghe, "Féyotaro yém nákan árém so tat
+  PRED: Ámb Farasi ár enmormén a Yesu yufotam ménaye mogh yafrotaménd, "Ndernáye Buk si 
+
+  [JHN 2:1]
+  SRC:  The third day , there was a wedding in Cana of Galilee . Jesus ’ mother was ther
+  REF:  Sómbio efogh soramé kété témorwén awerégh téménd Kana tesenan Galili yu kénjún. 
+  PRED: Nambiomén efghon ámb awerégh témorwén Kana Galili yu kénjún, a Yesu yátmé kété t
+
+  [ACT 14:14]
+  SRC:  But when the apostles, Barnabas and Paul , heard of it , they tore their clothes
+  REF:  Wénde njam Yesuene muyafé ár Banabas a Fol náyáreyayénd yénémamén, yémofem eftrá
+  PRED: Njam Banabas a Fol náyárayénd yéné yam, yémofem yétfayénd yéfenjo sáláme a nénge
+
+  [MRK 14:20]
+  SRC:  He answered them , “ It is one of the twelve , he who dips with me in the dish.
+  REF:  Yesum ewawangoi, "Yéna fété yém ámb 12 ármén emafé yéndfé enwam ámbiro merekina
+  PRED: Yesum ewawangoi, "Ámb yéna fété yém 12 ármén, efe yéndfé kafusi téfélngém. 21 
+
+  [MAT 9:4]
+  SRC:  Jesus , knowing their thoughts , said , “ Why do you think evil in your hearts ?
+  REF:  Fá mat náyátoi yéfene mwighé, Yesum emndai, "Némamén fém nemnati yéné yaufi mwig
+  PRED: Yesu mat namndai yéfene mwighé némé kemnawét a emotai, "Némamén fém yaufi nemnat
+
+  [ACT 5:22]
+  SRC:  But when they arrived at the darkness house, they did not see them. So they went
+  REF:  Wénde njam nufaryénd kwéfkwéf méngofaf, yémofem yau ewinjoyénd. Féyo fá néngango
+  PRED: Wénde njam fá nufaryénd kwéfkwéf méngot, yémofem yau ewinjoyénd fá. Féyo fá néna
+
+  [PHM 1:25]
+  SRC:  May the grace of our Lord Yesu Keriso be with you.p all.
+  REF:  Ngárám so yém téfene Yuré Yesu Kerisoene féfefaf méinyotio.
+  PRED: So téfene Yuré Yesu Kerisoene ngárám so yém féfefaf méinyotio.
+
+  [MAT 25:6]
+  SRC:  But at midnight there was a cry , ‘ Behold ! The bridegroom is coming ! Come out
+  REF:  "Njam sémbár néndkéf namndai ke táf yémormén, 'Snufar amaf awerégh ár! Kénaflang
+  PRED: "Sémbár néndkéfan ámb ár kutnau, 'Kéretangi! Nawerayéng awerégh ár! Nguwanend yá
+
+  [MRK 15:16]
+  SRC:  The soldiers led him away within the court, which is the Praetorium ; and they c
+  REF:  Fiyarayam yélimayénd Yesue kétán ndimbal ároene méngot, árké yém Fratoriyam, a e
+  PRED: Fiyaré enmormén Yesufé kénjút Gafanane méngot, a méinyotio fiyaré enmormén kété.

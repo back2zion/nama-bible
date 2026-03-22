@@ -23,7 +23,7 @@ from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from pathlib import Path
 _BASE = Path(__file__).resolve().parent.parent
 CHECKPOINT = str(_BASE / "output" / "nllb-nama-pilot" / "checkpoint-540")
-DATA_PATH = str(_BASE / "nama_eng_parallel.json")
+DATA_PATH = str(_BASE / "data" / "corpus" / "nama_eng_parallel.json")
 NEW_LANG_CODE = "nmx_Latn"
 PROXY_LANG_CODE = "tpi_Latn"
 MAX_LENGTH = 128

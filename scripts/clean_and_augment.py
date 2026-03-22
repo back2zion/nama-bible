@@ -149,9 +149,9 @@ def main():
     print("=" * 60)
     print("Step 1: Cleaning parallel data")
     print("=" * 60)
-    eng_data = load_json(base / "nama_eng_parallel.json")
+    eng_data = load_json(base / "data" / "corpus" / "nama_eng_parallel.json")
     clean_data, clean_stats = clean_parallel_data(eng_data)
-    save_json(clean_data, base / "nama_eng_clean.json")
+    save_json(clean_data, base / "data" / "corpus" / "nama_eng_clean.json")
 
     print(f"\n  Cleaning summary:")
     for k, v in clean_stats.items():
@@ -166,14 +166,14 @@ def main():
     print("=" * 60)
     print("Step 2: Back-translation augmentation")
     print("=" * 60)
-    bt_data = load_json(base / "nama_bt_parallel.json")
+    bt_data = load_json(base / "data" / "corpus" / "nama_bt_parallel.json")
     print(f"  Raw BT entries: {len(bt_data)}")
 
     bt_filtered = split_bt_long_entries(bt_data)
     print(f"  BT entries after filtering: {len(bt_filtered)}")
 
     augmented = augment_with_bt(clean_data, bt_filtered)
-    save_json(augmented, base / "nama_eng_augmented.json")
+    save_json(augmented, base / "data" / "corpus" / "nama_eng_augmented.json")
 
     # Final stats
     clean_only = [e for e in augmented if e.get("source") != "bt"]
@@ -195,7 +195,7 @@ def main():
         },
     }
 
-    save_json(report, base / "data_quality_report.json")
+    save_json(report, base / "reports" / "data_quality_report.json")
 
     print()
     print("=" * 60)

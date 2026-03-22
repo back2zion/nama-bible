@@ -154,7 +154,7 @@ def main():
 
     # Also include existing Nama data
     print(f"\nIncluding Nama (nmx)...")
-    nama_json = BASE / "nama_eng_parallel.json"
+    nama_json = BASE / "data" / "corpus" / "nama_eng_parallel.json"
     with open(nama_json, encoding="utf-8") as f:
         nama_data = json.load(f)
     nama_pairs = [
@@ -174,7 +174,7 @@ def main():
     print(f"  {len(nama_pairs):,} eng-nmx pairs")
 
     # Save
-    out_path = BASE / "multilingual_parallel.json"
+    out_path = BASE / "data" / "corpus" / "multilingual_parallel.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(all_pairs, f, ensure_ascii=False, indent=2)
 

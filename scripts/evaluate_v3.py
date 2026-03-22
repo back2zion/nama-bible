@@ -362,7 +362,7 @@ def main():
             for t, p in zip(test_data, predictions)
         ],
     }
-    out_path = BASE / "evaluation_v3_results.json"
+    out_path = BASE / "reports" / "evaluation_v3_results.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     print(f"\nResults saved to {out_path}")

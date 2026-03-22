@@ -37,7 +37,7 @@ NEW_LANG_CODE = "nmx_Latn"
 PROXY_LANG_CODE = "tpi_Latn"  # Tok Pisin – PNG lingua franca
 from pathlib import Path
 _BASE = Path(__file__).resolve().parent.parent
-DATA_PATH = str(_BASE / "nama_eng_parallel.json")
+DATA_PATH = str(_BASE / "data" / "corpus" / "nama_eng_parallel.json")
 OUTPUT_DIR = str(_BASE / "output" / "nllb-nama-pilot")
 
 SEED = 42

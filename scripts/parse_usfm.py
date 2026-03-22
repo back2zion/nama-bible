@@ -296,7 +296,7 @@ def main():
     print(f"  정렬 완료: {len(aligned)}개 ({100*len(aligned)/len(corpus):.1f}%)")
 
     # JSON 저장
-    corpus_json = base / "nama_eng_parallel.json"
+    corpus_json = base / "data" / "corpus" / "nama_eng_parallel.json"
     with open(corpus_json, "w", encoding="utf-8") as f:
         json.dump(corpus, f, ensure_ascii=False, indent=2)
     print(f"  → {corpus_json}")
@@ -340,7 +340,7 @@ def main():
         bt_corpus = build_bt_parallel_corpus(nama_data, bt_data)
         print(f"  Nama ↔ BT 정렬 완료: {len(bt_corpus)}쌍")
 
-        bt_json = base / "nama_bt_parallel.json"
+        bt_json = base / "data" / "corpus" / "nama_bt_parallel.json"
         with open(bt_json, "w", encoding="utf-8") as f:
             json.dump(bt_corpus, f, ensure_ascii=False, indent=2)
         print(f"  → {bt_json}")
@@ -355,7 +355,7 @@ def main():
     print("\n[6/6] 나마어 언어학적 분석 중...")
     analysis = analyze_nama_linguistics(corpus)
 
-    analysis_json = base / "linguistics_report.json"
+    analysis_json = base / "reports" / "linguistics_report.json"
     with open(analysis_json, "w", encoding="utf-8") as f:
         json.dump(analysis, f, ensure_ascii=False, indent=2)
 
@@ -379,7 +379,7 @@ def main():
     print(f"  코퍼스 JSON: {corpus_json}")
     print(f"  코퍼스 CSV:  {corpus_csv}")
     if bt_corpus:
-        print(f"  BT 코퍼스:   {base / 'nama_bt_parallel.json'}")
+        print(f"  BT 코퍼스:   {base / 'data' / 'corpus' / 'nama_bt_parallel.json'}")
     print(f"  분석 리포트: {analysis_json}")
     print(f"\n  총 학습 데이터: {len(aligned) + len(bt_corpus)}쌍 "
           f"(WEB: {len(aligned)}, BT: {len(bt_corpus)})")

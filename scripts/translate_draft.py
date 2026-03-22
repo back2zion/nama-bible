@@ -158,17 +158,38 @@ def main():
     # Generate USFM output
     usfm_output = generate_usfm_output(book_code, translations)
 
-    # Save
+    # Determine version from adapter path
+    version = "v3"
+    adapter_info = Path(ADAPTER_PATH).parent.name
+    version_file = Path(ADAPTER_PATH) / "version.txt"
+    if version_file.exists():
+        version = version_file.read_text().strip()
+    else:
+        # Auto-detect version by counting training runs
+        drafts_dir = BASE / "output" / "drafts"
+        if drafts_dir.exists():
+            existing = list(drafts_dir.glob(f"{book_code}_draft_v*_nmx.usfm"))
+            version = f"v3.{len(existing) + 1}"
+
+    # Save versioned and latest
     output_dir = Path(args.output) if args.output else BASE / "output" / "drafts"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     suffix = f"_ch{args.chapter}" if args.chapter else ""
-    out_file = output_dir / f"{book_code}{suffix}_draft_nmx.usfm"
-    with open(out_file, "w", encoding="utf-8") as f:
+
+    # Versioned copy
+    versioned_file = output_dir / f"{book_code}{suffix}_draft_{version}_nmx.usfm"
+    with open(versioned_file, "w", encoding="utf-8") as f:
+        f.write(usfm_output)
+
+    # Latest copy (always overwritten)
+    latest_file = output_dir / f"{book_code}{suffix}_draft_nmx.usfm"
+    with open(latest_file, "w", encoding="utf-8") as f:
         f.write(usfm_output)
 
     print(f"\n{'=' * 60}")
-    print(f"  Draft translation saved to: {out_file}")
+    print(f"  Draft translation saved to: {versioned_file}")
+    print(f"  Latest copy: {latest_file}")
     print(f"  {book_code}: {len(translations)} chapters, {total_verses} verses")
     print(f"{'=' * 60}")
 

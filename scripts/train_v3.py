@@ -56,8 +56,8 @@ def load_data() -> list[dict]:
     pairs = []
 
     # Use cleaned & augmented data if available, otherwise fall back to raw
-    augmented_path = BASE / "nama_eng_augmented.json"
-    raw_path = BASE / "nama_eng_parallel.json"
+    augmented_path = BASE / "data" / "corpus" / "nama_eng_augmented.json"
+    raw_path = BASE / "data" / "corpus" / "nama_eng_parallel.json"
 
     if augmented_path.exists():
         print("Loading cleaned + augmented data...")

@@ -139,22 +139,20 @@ nama_bible/
 │   ├── evaluate_v3.py          # v3 evaluation
 │   └── translate_draft.py      # OT draft translation generator
 ├── data/                       # All source data
-│   ├── source_rtf/             # Paratext RTF originals (5 files)
-│   ├── nmx/                    # Nama USFM (27 NT books)
+│   ├── source_rtf/             # Paratext RTF originals
+│   ├── nmx/                    # Nama USFM (27 NT + Ruth)
 │   ├── eng/                    # English WEB USFM (full Bible)
 │   ├── heb/                    # Hebrew OT originals
 │   ├── grk/                    # Greek NT originals
+│   ├── bt/                     # Back-translation USFM (26 books)
 │   ├── multilingual/           # PNG language USFM corpora (7 languages)
-│   └── nmx_ebible/             # eBible.org originals (LUK, ACT)
+│   ├── nmx_ebible/             # eBible.org originals (LUK, ACT)
+│   └── corpus/                 # Processed parallel corpora (JSON/CSV)
+├── docs/                       # Work history & technical documentation
+├── reports/                    # Evaluation & analysis reports
 ├── output/                     # Model checkpoints & drafts (gitignored)
 │   ├── translategemma-nama-v3/ # v3 LoRA adapter weights
-│   └── drafts/                 # Generated OT draft translations
-├── nama_eng_parallel.json      # Raw NT parallel corpus (3,167 pairs)
-├── nama_eng_clean.json         # Quality-filtered corpus (1,737 pairs)
-├── nama_eng_augmented.json     # Clean + BT + human Ruth (3,225 pairs)
-├── nama_bt_parallel.json       # Back-translation corpus (2,622 pairs)
-├── ruth_comparison_report.json # Model vs human Ruth comparison metrics
-├── data_quality_report.json    # Data cleaning statistics
+│   └── drafts/                 # Generated OT draft translations (versioned)
 ├── pyproject.toml
 └── README.md
 ```

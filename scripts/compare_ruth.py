@@ -156,7 +156,7 @@ def main():
     print(f"  Ruth parallel pairs: {len(ruth_pairs)}")
 
     # Add to augmented dataset
-    aug_path = BASE / "nama_eng_augmented.json"
+    aug_path = BASE / "data" / "corpus" / "nama_eng_augmented.json"
     with open(aug_path, encoding="utf-8") as f:
         augmented = json.load(f)
 
@@ -185,7 +185,7 @@ def main():
         "total_augmented": len(augmented),
     }
 
-    report_path = BASE / "ruth_comparison_report.json"
+    report_path = BASE / "reports" / "ruth_comparison_report.json"
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(report, f, ensure_ascii=False, indent=2)
 

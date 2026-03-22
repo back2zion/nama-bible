@@ -1,7 +1,7 @@
 {
   "metrics": {
-    "bleu": 6.11,
-    "chrf": 37.06
+    "bleu": 9.23,
+    "chrf": 37.63
   },
   "verse_counts": {
     "human": 85,
