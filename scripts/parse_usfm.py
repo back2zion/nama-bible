@@ -50,13 +50,24 @@ def parse_usfm(filepath: str) -> dict:
                 current_verse = None
                 continue
 
-            # 절 (re.search로 \li 등 내부의 \v도 감지)
-            m = re.search(r"\\v\s+(\d+)\s*(.*)", line)
-            if m:
-                verse_buffer = flush_verse()
-                current_verse = int(m.group(1))
-                rest = m.group(2).strip()
-                verse_buffer = [rest] if rest else []
+            # 절 - 한 줄에 여러 \v가 있을 수 있음
+            if "\\v " in line:
+                # \v 기준으로 분할하여 각 절을 개별 처리
+                parts = re.split(r"\\v\s+", line)
+                # parts[0]은 \v 앞 텍스트 (마커 등) - 현재 절에 추가
+                prefix = parts[0].strip()
+                if prefix and current_verse is not None:
+                    cleaned = re.sub(r"\\[a-z0-9+*]+\s*", " ", prefix)
+                    if cleaned.strip():
+                        verse_buffer.append(cleaned.strip())
+
+                for part in parts[1:]:
+                    m = re.match(r"(\d+)\s*(.*)", part)
+                    if m:
+                        verse_buffer = flush_verse()
+                        current_verse = int(m.group(1))
+                        rest = m.group(2).strip()
+                        verse_buffer = [rest] if rest else []
                 continue
 
             # 마커 제거 후 텍스트 누적
@@ -90,11 +101,22 @@ def clean_usfm_text(text: str) -> str:
 
 # ─── 병렬 코퍼스 구축 ────────────────────────────────────────────────────────
 
+OT_BOOKS = [
+    "GEN", "EXO", "LEV", "NUM", "DEU",
+    "JOS", "JDG", "RUT", "1SA", "2SA", "1KI", "2KI",
+    "1CH", "2CH", "EZR", "NEH", "EST", "JOB", "PSA", "PRO",
+    "ECC", "SNG", "ISA", "JER", "LAM",
+    "EZK", "DAN", "HOS", "JOL", "AMO", "OBA", "JON",
+    "MIC", "NAM", "HAB", "ZEP", "HAG", "ZEC", "MAL",
+]
+
 NT_BOOKS = [
     "MAT", "MRK", "LUK", "JHN", "ACT", "ROM", "1CO", "2CO", "GAL", "EPH",
     "PHP", "COL", "1TH", "2TH", "1TI", "2TI", "TIT", "PHM",
     "HEB", "JAS", "1PE", "2PE", "1JN", "2JN", "3JN", "JUD", "REV",
 ]
+
+ALL_BOOKS = OT_BOOKS + NT_BOOKS
 
 
 def build_parallel_corpus(nama_data: dict, eng_data: dict) -> list:
@@ -104,7 +126,10 @@ def build_parallel_corpus(nama_data: dict, eng_data: dict) -> list:
     """
     corpus = []
 
-    for book_code in NT_BOOKS:
+    # Use ALL_BOOKS to include both OT and NT
+    available_books = [b for b in ALL_BOOKS if b in nama_data or b in eng_data]
+
+    for book_code in available_books:
         nama_book = nama_data.get(book_code, {})
         eng_book = eng_data.get(book_code, {})
 
@@ -140,7 +165,8 @@ def build_bt_parallel_corpus(nama_data: dict, bt_data: dict) -> list:
     """
     corpus = []
 
-    for book_code in NT_BOOKS:
+    available_books = [b for b in ALL_BOOKS if b in nama_data or b in bt_data]
+    for book_code in available_books:
         nama_book = nama_data.get(book_code, {})
         bt_book = bt_data.get(book_code, {})
 
@@ -178,7 +204,8 @@ def validate_corpus(nama_data: dict, eng_data: dict, corpus: list) -> None:
     total_nama_only = 0
     total_eng_only = 0
 
-    for book_code in NT_BOOKS:
+    available_books = [b for b in ALL_BOOKS if b in nama_data or b in eng_data]
+    for book_code in available_books:
         nama_book = nama_data.get(book_code, {})
         eng_book = eng_data.get(book_code, {})
         nama_verses = sum(len(v) for v in nama_book.values())

@@ -8,6 +8,7 @@ dependencies = [
     "accelerate>=1.1.0",
     "bitsandbytes>=0.45.0",
     "datasets>=4.6.1",
+    "ebooklib>=0.20",
     "pandas>=2.3.3",
     "peft>=0.15.0",
     "sacrebleu>=2.5.0",
@@ -15,4 +16,5 @@ dependencies = [
     "torch>=2.10.0",
     "transformers>=4.45,<5",
     "trl>=0.16.0",
+    "weasyprint>=68.1",
 ]

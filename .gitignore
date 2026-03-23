@@ -10,7 +10,13 @@ wheels/
 .venv
 
 # Model checkpoints (too large for git)
-output/
+output/*
+!output/drafts/
+
+# Copyrighted / licensed materials
+data/references/
+data/dictionary/
+data/salt/
 
 # Zip archives (too large, can re-download)
 data/*.zip

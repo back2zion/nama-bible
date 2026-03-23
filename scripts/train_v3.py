@@ -6,6 +6,7 @@ English-Nama Bible verse pairs (27 NT books WEB + Back Translation).
 Designed for 2x RTX 3090 (24GB each) with pipeline parallelism.
 """
 
+import argparse
 import json
 import random
 from pathlib import Path
@@ -35,7 +36,7 @@ MAX_SEQ_LEN = 256
 PER_GPU_BATCH = 2
 GRAD_ACCUM_STEPS = 8  # effective batch = 2 * 2 GPUs * 8 = 32
 LEARNING_RATE = 1.5e-4
-EPOCHS = 5
+EPOCHS = 3
 WARMUP_RATIO = 0.05
 
 # LoRA config
@@ -172,7 +173,8 @@ def load_model_and_tokenizer():
 # ── Training ─────────────────────────────────────────────────────────────────
 
 
-def train(model, tokenizer, train_ds: Dataset, val_ds: Dataset):
+def train(model, tokenizer, train_ds: Dataset, val_ds: Dataset,
+          resume_from_checkpoint=None):
     """Fine-tune with SFTTrainer."""
     training_args = SFTConfig(
         output_dir=OUTPUT_DIR,
@@ -210,7 +212,7 @@ def train(model, tokenizer, train_ds: Dataset, val_ds: Dataset):
     print("\n" + "=" * 60)
     print("  TranslateGemma 27B QLoRA Fine-tuning")
     print("=" * 60)
-    trainer.train()
+    trainer.train(resume_from_checkpoint=resume_from_checkpoint)
 
     # Save adapter
     adapter_path = Path(OUTPUT_DIR) / "final_adapter"
@@ -279,6 +281,11 @@ def evaluate_samples(model, tokenizer, test_data: list[dict], n: int = 10):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--resume", type=str, default=None,
+                        help="Resume from checkpoint (path or 'latest')")
+    args = parser.parse_args()
+
     print("=" * 60)
     print("  Nama Bible TranslateGemma 27B QLoRA Training (v3)")
     print("=" * 60)
@@ -298,8 +305,25 @@ def main():
     # Load model
     model, tokenizer = load_model_and_tokenizer()
 
+    # Resolve checkpoint for resuming
+    resume_checkpoint = None
+    if args.resume:
+        if args.resume == "latest":
+            # Find latest checkpoint in output dir
+            checkpoints = sorted(Path(OUTPUT_DIR).glob("checkpoint-*"),
+                                 key=lambda p: int(p.name.split("-")[1]))
+            if checkpoints:
+                resume_checkpoint = str(checkpoints[-1])
+                print(f"\nResuming from latest checkpoint: {resume_checkpoint}")
+            else:
+                print("\nWARNING: No checkpoints found, starting from scratch")
+        else:
+            resume_checkpoint = args.resume
+            print(f"\nResuming from: {resume_checkpoint}")
+
     # Train
-    trainer = train(model, tokenizer, train_ds, val_ds)
+    trainer = train(model, tokenizer, train_ds, val_ds,
+                    resume_from_checkpoint=resume_checkpoint)
 
     # Evaluate
     results = evaluate_samples(trainer.model, tokenizer, test_split, n=10)
