@@ -1,0 +1,155 @@
+{
+  "test_size": 20,
+  "models": {
+    "v3.4": {
+      "bleu": 0.0,
+      "chrf": 0.0
+    },
+    "v3.5": {
+      "bleu": 0.0,
+      "chrf": 0.0
+    }
+  },
+  "samples": [
+    {
+      "ref": "EXO 33:2",
+      "source": "I will send an angel before you ; and I will drive out the Canaanite , the Amorite, and the Hittite , and the Perizzite , the Hivite , and the Jebusite .",
+      "reference": "A yéndon so yéngwafaretan njafar si résagh árfe frondeta ménát sái engwitérmbota Kanan ár, Amar ár, Itait ár, Feris ár, Ifai ár, Jebus ár.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "PSA 59:6",
+      "source": "They return at evening, howling like dogs, and prowl around the city.",
+      "reference": "Fá kéntorngi sémbáran ndenanit wánangogh tékrat ághé métare narota endmé.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "HEB 2:9",
+      "source": "But we see Yesu. God mad Yesu lower from the men carrying heavenly message(angels) for a while. And now we see that God gave to Yesu big light(glory) and honor because of his death he suffered, so that through God's grace he should taste death for every people.",
+      "reference": "Wénde yéndfem yéfandam Yesu. Ngánjánam tekofnarot yiyátoi Yesu yuwan njafar si résagh árfeta. Sénonjo yéfandam ndené Ngánjánam té yaram Yesue ndimbal kwayaghé a utmanégh ménamén yánjo kéran tékrát yéfandam, ménát Ngánjánene ngáráme yémo so tufongai kér méinyotio árét.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "2CO 1:8",
+      "source": "For we don’ t desire to have you uninformed, brothers, concerning our affliction which happened to us in Asia : that we were weighed down exceedingly, beyond our power , so much that we despaired even of life .",
+      "reference": "Fútaréf, yéndfem mat eyátotam fém kértamén yénd sténmorwén Esia yuwan. Yéné kérté téfayongérwén téfefaf tamorwén ndimbalfifi a yénd mwighayan nuyángém téfene ghérsamén.{i{ ...f* {i{1.8 yénd mwighayan nuyángém téfene ghérsamén. need to BT",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "PSA 37:11",
+      "source": "But the humble shall inherit the land, and shall delight themselves in the abundance of peace .",
+      "reference": "Yuwan árém so tanangi mband a so emor krufrate a remngoghafé.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "GEN 21:3",
+      "source": "Abraham called his son who was born to him , whom Sarah bore to him , Isaac .",
+      "reference": "Ebraamam yétkwén yaramayéng Aisek,",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "JAS 4:9",
+      "source": "Lament, mourn , and weep . Let your laughter be turned to mourning and your joy to gloom .",
+      "reference": "Áuwéghofnar, nawárametati a nendati. Tawengongi féfene fén kétán yefaf a féfene áuwégh kétán áuwéghofnar.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "LUK 19:6",
+      "source": "So he came down quickly and welcomed him to his house with joy.",
+      "reference": "Féyo fá néneworyéng wékeye a Yesu áuwéghafé yumyoi yánjo méngot.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "1SA 28:3",
+      "source": "Now Samuel was dead , and all Israel had mourned for him and buried him in Ramah , even in his own city . Saul had sent away those who had familiar spirits and the wizards out of the land.",
+      "reference": "Tekofnar, Samuel kér yémormén, a méinyotio Israil ár kendawét yánemén. Yá mband yaramayénd kété Rama, yánjo tesenan. A Solém té ewitérmboi kétamé Israil mbandta méinyotio efe kawarmanetawét kér mbérmbérafé.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "1TI 6:13",
+      "source": "I command you before God who gives life to all things , and before Christ Jesus who before Pontius Pilate testified the good confession ,",
+      "reference": "Ngánjánene ghékfan, emo ewaramete ghérsé méinyotio rokarat, a Keriso Yesue ghékfan, emo taikrataye norayam yáne ndimbal mwighamén Fontius Failetene ghékfan, yéndon némafaretan fém muyaye",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "1SA 28:24",
+      "source": "The woman had a fattened calf in the house . She hurried and killed it ; and she took flour and kneaded it , and baked unleavened bread of it .",
+      "reference": "Amafoene témorwén méinkéfro totér kau méngon, a yémo wékeye yésmetam, a yémo yénmanai flawé tétumndau ngangaye a yénegham néngté féskaf flawé yénata.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "JHN 5:23",
+      "source": "that all may honor the Son , even as they honor the Father . He who doesn’ t honor the Son doesn’ t honor the Father who sent him .",
+      "reference": "ménát méinyotio árém so yutémndat Ambum ndené fété yémofem kés yutémndat Afé. Emon njam yau yutémnda Ambum yau yutémnde Afé, emon yénmáfáretam fá.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "ACT 26:32",
+      "source": "Agrifa said to Festus, \"If this man had not spoken to Kaisar to hear his talk, then we could take him out.\"",
+      "reference": "Agrifa norayai Festusefaf, \"Njam yéné ár yau té norayai Kaisarefaf ménát sái káyáretau yane si, féyo yéndfem so téngwurtongém.\"",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "LUK 1:68",
+      "source": "\"Praise be to the Lord, the God of Israil, who has come to save his people.",
+      "reference": "\"Áuwégh yém Yurai, Israilmén Ngánján! Fá té téném yánjo ár wanjarghét.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "1PE 5:2",
+      "source": "Be sheep watching men(sherpherds) of Godʼs family who are under your.p care. Lead them well because you want to do it. Do not do it just because you have to do it. Do it in the way that God wants for you. Don't do it for receiving reward, but do because you want to help people.",
+      "reference": "Aem sif wanjengégh ár Ngánjánene mérnot efe em féfene wanjengégh mbanmbanan. Elimndati mere ménamén fém ménde em yéné wafroghét. Yau ewafrotati ménát fété fémofem sái yafrotati. Ewafrotati yéné ende Ngánján árké ménde yém féfeyot. Yau yafrotati nemnati faimén, wénde ewafrotati ménamén sái ewáutánati ár.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "GEN 41:33",
+      "source": "“ Now therefore let Pharaoh look for a discreet and wise man , and set him over the land of Egypt .",
+      "reference": "Yénémaménnde, Faraom so yéronje sénté mwighafé a káfeté mwighafé ár a tékmangé wanjengéghét yéné Ijif mbandan.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "MRK 13:12",
+      "source": "Elder brother will give teeth(betray) his young brother to death, and a father his child. Children will come against his parents to put them to death.",
+      "reference": "Yanafem sén so yangnof taramangi krot, a yéferafafem sén so yéfe ambumof taramangi. Ambum so kénawengongi yéferafafefaf ménát krot so tákmangi.",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "PSA 53:3",
+      "source": "Every one of them has gone back. They have become filthy together . There is no one who does good, no , not one .",
+      "reference": "Wénde yau, méinyotio té sem kawengotat; méinyotio té nénamndangi awasérmbogharé. Emo ámb yau yafrote mer, yau ámb ámbiroyam!",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "TIT 1:4",
+      "source": "I am writing the letter to you.s, Taitus, my true son in the big mind(faith) which we share. Grace and peace will be from God the Father and Keriso Yesu our Savior. Taitus works there in Krete",
+      "reference": "Yéndon férén yéngfarotan fefaf, Taitus, tane efalo ambum ndimbal mwighayan téfene árké yénmam. Ngárám a krufrát so yém kétándmé Ngánján Afé a Keriso Yesu téfene Wanjarégh ár. Taitus násáfotam kété Kreten",
+      "v3.4": "",
+      "v3.5": ""
+    },
+    {
+      "ref": "ROM 3:25",
+      "source": "whom God sent to be an atoning sacrifice through faith in his blood, for a demonstration of his righteousness through the passing over of prior sins, in God ’s forbearance;",
+      "reference": "Ngánjánam yuyafotam ndené Yesu Keriso kér yémormén wafatarégh wénan ghéngén téfene yaufiyammén. Ngánjánam yénmawite téfene táf njam efalo yiyátotam Yesu a yáne ghéngén férék. Ngánjánam yéné yafrotam ménát yuyafotam safén ndené fá siyém túmén mbarkánd a féyotaro. Tándái, Ngánjánam yau tékratan takmetau ár emofem mámáfi yam tawafrotawét.",
+      "v3.4": "",
+      "v3.5": ""
+    }
+  ]
+}
